@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        {% endblock %}
+    </head>
+    <body>
+    	<nav>
+            {# Do : bin/console debug:router for see path name. #}
+            <a href="{{ path('app_article_homepage') }}">Home</a> / 
+            <a href="{{ path('app_article_show', {slug:'toto-titi'}) }}">Article</a> / 
+            Contact
+        </nav>
+        <hr>
+
+        {% block body %}{% endblock %}
+
+        <hr>
+        <footer>Footer</footer>
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
