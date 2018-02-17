@@ -40,10 +40,24 @@ php bin/console make:form Post
 ### Entite Post
 php bin/console make:entity Post
 
+## DB :
+### Doctrine
+composer require doctrine maker
+### Config .env 
+- db_user
+- db_password
+- db_host
+- db_name
+### create db
+php bin/console doctrine:database:create
+### create entity class
+php bin/console make:entity Product
 ### Génère le sql à utiliser pour la migration (db)
 php bin/console doctrine:migrations:diff
 ### Lance la migration
 php bin/console doctrine:migrations:migrate
+### Rendu Sql (for the fun)
+php bin/console doctrine:query:sql 'SELECT * FROM product'
 
 ## Add "encore" > add webpack.config.js
 composer require encore
@@ -68,10 +82,13 @@ Doc : https://twig.symfony.com/doc/2.x/
 
 # DEBUG : 
 Php (in controller) : dump($your_var, $this, $other);
+
 Twig : {{ dump() }}
 
 composer require profiler --dev
 
 composer require debug
 
-Command : bin/console debug:router
+## Command : 
+- php bin/console debug:router
+- php bin/console cache:clear
