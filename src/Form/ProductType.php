@@ -18,9 +18,9 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('price', NumberType::class)
-            ->add('description', TextareaType::class)
+            ->add('name', null, array('attr' => array('maxlength' => 4)))
+            ->add('price', NumberType::class, array('required'  => false))
+            ->add('description', TextareaType::class, array('label' => 'Product description'))
 
             // mapped=false : Not exist in table, but ok for form render
             ->add('authorEmail', EmailType::class, array('mapped' => false))

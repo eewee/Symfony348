@@ -17,11 +17,24 @@ http://localhost:8000/
 
 ## Vrac :
 ### AutoWiring
-php bin/console debug:autowiring
+- php bin/console debug:autowiring
 ### Annotations (pour les roots en commentaire)
-composer require annovations
+- composer require annovations
 ### Barre de debug
-composer require profiler --dev
+- composer require profiler --dev
+### Add "encore" > add webpack.config.js
+- composer require encore
+### Asset support (ex : for add css/js)
+- composer require asset
+### Security : 
+- composer require sec-checker
+- php bin/console security:check
+- [packagist](https://packagist.org/packages/sensiolabs/security-checker)
+### Package
+- [packagist](https://packagist.org)
+- [symfony.sh](https://symfony.sh)
+### PHPStorm
+- [shortcuts PC/Mac](https://www.thirdandgrove.com/8-must-use-shortcuts-for-phpstorm)
 
 ## Form :
 composer require form
@@ -30,7 +43,19 @@ composer require validator
 ### Source 
 - https://symfony.com/doc/current/doctrine/registration_form.html
 - http://symfony.com/doc/current/forms.html
-- https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony/creer-des-formulaires-avec-symfony    
+- https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony/creer-des-formulaires-avec-symfony, section "Personnaliser l'affichage d'un formulaire"
+### Required field form
+**NEW BROWSER > Class ProductType (for remove the default 'required'):**
+>->add('price', NumberType::class, array('required'  => false))
+
+**OLD BROWSER > class Product (entity) :**
+
+*(You can use NotBlank or NotNull)*
+>@Assert\NotBlank
+>
+>@ORM\Column(type="decimal", scale=2, nullable=true)
+>
+>private $price;
 
 ## Make :
 ### Pour la génération de code
@@ -63,24 +88,16 @@ php bin/console doctrine:migrations:migrate
 ### Rendu Sql (for the fun)
 php bin/console doctrine:query:sql 'SELECT * FROM product'
 
-## Vrac :
-### Add "encore" > add webpack.config.js
-composer require encore
-### Asset support (ex : for add css/js)
-composer require asset
-### Security : 
-- composer require sec-checker
-- php bin/console security:check
-- [packagist](https://packagist.org/packages/sensiolabs/security-checker)
-
-### Package
-- [packagist](https://packagist.org)
-- [symfony.sh](https://symfony.sh)
-
 ## TWIG :
 Doc : https://twig.symfony.com/doc/2.x/
 ### Theme
 http://symfony.com/doc/current/form/form_customization.html
+
+> _/config/packages/twig.yaml_ :
+>
+> twig:
+>
+>     form_themes: ['bootstrap_4_horizontal_layout.html.twig']
 
 ## DEBUG : 
 - Php (in controller) : dump($your_var, $this, $other);

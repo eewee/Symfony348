@@ -32,7 +32,7 @@ class ProductController extends Controller
         // actually executes the queries (i.e. the INSERT query)
         $em->flush();
 
-        return new Response('Saved new product with id '.$product->getId());
+        return new Response('Saved new product with id ' . $product->getId());
     }
 
     /**
@@ -48,11 +48,11 @@ class ProductController extends Controller
 
         if (!$product) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No product found for id ' . $id
             );
         }
 
-        return new Response('Check out this great product: <b>'.$product->getName().'</b>');
+        return new Response('Check out this great product: <b>' . $product->getName() . '</b>');
 
         // or render a template
         // in the template, print things with {{ product.name }}
@@ -89,10 +89,10 @@ class ProductController extends Controller
         // look for *all* Product objects
         $products = $repository->findAll();
         foreach ($products as $p) {
-            echo '<pre>'.var_export($p->getId().' - '.$p->getName(), true).'</pre>';
+            echo '<pre>' . var_export($p->getId() . ' - ' . $p->getName(), true) . '</pre>';
         }
 
-        return new Response('Find : '.$product->getId().' - '.$product->getDescription());
+        return new Response('Find : ' . $product->getId() . ' - ' . $product->getDescription());
     }
 
     /**
@@ -107,7 +107,7 @@ class ProductController extends Controller
 
         if (!$product) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No product found for id ' . $id
             );
         }
 
@@ -133,12 +133,9 @@ class ProductController extends Controller
         $em->remove($product);
         $em->flush();
 
-        return new Response("delete : id=".$id);
+        return new Response("delete : id=" . $id);
     }
 
-
-    
-    
     /**
      * SQL
      *
@@ -151,21 +148,15 @@ class ProductController extends Controller
             //->findAllGreaterThanPrice01($price);
             //->findAllGreaterThanPrice02($price);
             ->findAllGreaterThanPrice03($price);
-            //->findByName('Keyboard');
-        
-        echo '<pre>'.var_export($products, true).'</pre>';
+        //->findByName('Keyboard');
+
+        echo '<pre>' . var_export($products, true) . '</pre>';
 
         return new Response('xxx');
     }
 
-
-
-
     /**
      * Form
-     * Source : https://symfony.com/doc/current/doctrine/registration_form.html
-     * Source : http://symfony.com/doc/current/forms.html
-     * Source : https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony/creer-des-formulaires-avec-symfony
      *
      * @Route("/product/form/form01", name="product_form01")
      * @param Request $request
@@ -188,6 +179,7 @@ class ProductController extends Controller
                 $em->persist($product);
                 $em->flush();
                 return new Response('id:' . $product->getId());
+                //return $this->redirectToRoute('product_success');
             }
         }
 
@@ -196,5 +188,15 @@ class ProductController extends Controller
             "product/form01.html.twig",
             ['form' => $form->createView()]
         );
+    }
+
+    /**
+     * Listing
+     *
+     * @Route("/product/listing/{page}", name="product_listing")
+     * @todo create listing product with pagination
+     */
+    public function listing($page)
+    {
     }
 }

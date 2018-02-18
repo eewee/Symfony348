@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -23,6 +24,8 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", scale=2, nullable=true)
+     *
+     * @Assert\NotBlank(message="Please, add a price here !?!!")
      */
     private $price;
 

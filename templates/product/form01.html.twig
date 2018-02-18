@@ -1,4 +1,7 @@
-{#
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {#
 Custom form render :
 - https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony/creer-des-formulaires-avec-symfony, section "Personnaliser l'affichage d'un formulaire"
 
@@ -10,7 +13,7 @@ Custom form render :
 - form_rest() affiche tous les champs manquants du formulaire (dans notre cas, juste le champ CSRF puisque nous avons déjà affiché à la main tous les autres champs).
 - form_end() affiche la balise de fermeture du formulaire HTML, soit</form>.
 #}
-{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
 
 
@@ -35,6 +38,22 @@ Custom form render :
 
 
 
+    <div class="form-group row">
+        <label class="col-form-label col-sm-2 form-control-label required"
+               for="contact_name">
+            Name
+        </label>
+
+        <div class="col-sm-10">
+            <input type="text" id="contact_name" name="contact[name]" required="required" class="form-control"/>
+        </div>
+    </div>
+
+
+
+
     {{ form_widget(form) }}
-    <input type="submit" class="btn" value="Create (in Twig)" />
-{{ form_end(form) }}
+    <input type="submit" class="btn btn-success" value="Create (in Twig)"/>
+    {{ form_end(form) }}
+{% endblock %}
+
