@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
@@ -33,6 +36,8 @@ class ProductController extends Controller
     }
 
     /**
+     * Find
+     *
      * @Route("/product/{id}", name="product_show")
      */
     public function showAction($id)
@@ -55,6 +60,8 @@ class ProductController extends Controller
     }
 
     /**
+     * Find
+     *
      * @Route("/product/find/{id}", name="product_show_find")
      * @param int $id
      */
@@ -89,6 +96,8 @@ class ProductController extends Controller
     }
 
     /**
+     * Update
+     *
      * @Route("/product/edit/{id}")
      */
     public function updateAction($id)
@@ -111,6 +120,8 @@ class ProductController extends Controller
     }
 
     /**
+     * Delete
+     *
      * @Route("/product/delete/{id}", name="product_delete")
      * @param int $id
      */
@@ -129,6 +140,8 @@ class ProductController extends Controller
     
     
     /**
+     * SQL
+     *
      * @Route("/product/sql01/{price}", name="product_sql01")
      */
     public function getSql01Action($price)
@@ -143,5 +156,45 @@ class ProductController extends Controller
         echo '<pre>'.var_export($products, true).'</pre>';
 
         return new Response('xxx');
+    }
+
+
+
+
+    /**
+     * Form
+     * Source : https://symfony.com/doc/current/doctrine/registration_form.html
+     * Source : http://symfony.com/doc/current/forms.html
+     * Source : https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony/creer-des-formulaires-avec-symfony
+     *
+     * @Route("/product/form/form01", name="product_form01")
+     * @param Request $request
+     */
+    public function form01Action(Request $request)
+    {
+        // CREATE FORM
+        $product = new Product();
+        $form = $this->createForm(ProductType::class, $product);
+//        $form->add('submit', SubmitType::class, [
+//            'label' => 'Create (in Controller)',
+//            'attr' => ['class' => 'btn btn-default pull-right'],
+//        ]);
+
+        // TRAITEMENT
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($product);
+                $em->flush();
+                return new Response('id:' . $product->getId());
+            }
+        }
+
+        // RENDER
+        return $this->render(
+            "product/form01.html.twig",
+            ['form' => $form->createView()]
+        );
     }
 }

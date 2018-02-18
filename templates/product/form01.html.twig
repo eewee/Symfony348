@@ -1,0 +1,40 @@
+{#
+Custom form render :
+- https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony/creer-des-formulaires-avec-symfony, section "Personnaliser l'affichage d'un formulaire"
+
+- form_start() affiche la balise d'ouverture du formulaire HTML, soit<form>. Il faut passer la variable du formulaire en premier argument, et les paramètres en deuxième argument. L'index attr des paramètres, et cela s'appliquera à toutes les fonctions suivantes, représente les attributs à ajouter à la balise HTML générée, ici le<form>. Il nous permet d'appliquer une classe CSS au formulaire, ici form-horizontal.
+- form_errors() affiche les erreurs attachées au champ donné en argument. Nous verrons les erreurs de validation dans le prochain chapitre.
+- form_label() affiche le label HTML du champ donné en argument. Le deuxième argument est le contenu du label.
+- form_widget() affiche le champ HTML lui-même (que ce soit<input>,<select>, etc.).
+- form_row() affiche le label, les erreurs et le champ en même temps, en respectant la vue définit dans le thème du formulaire que vous utilisez.
+- form_rest() affiche tous les champs manquants du formulaire (dans notre cas, juste le champ CSRF puisque nous avons déjà affiché à la main tous les autres champs).
+- form_end() affiche la balise de fermeture du formulaire HTML, soit</form>.
+#}
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+
+
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
+
+    {# Génération manuelle et éclatée : #}
+    <div class="form-group">
+        {# Génération du label. #}
+        {{ form_label(form.name, "Name :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+        {# Affichage des erreurs pour ce champ précis. #}
+        {{ form_errors(form.name) }}
+
+        <div class="col-sm-10">
+            {# Génération de l'input. #}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+
+
+
+    {{ form_widget(form) }}
+    <input type="submit" class="btn" value="Create (in Twig)" />
+{{ form_end(form) }}
