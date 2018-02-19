@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductController extends Controller
 {
     /**
-     * @Route("/product", name="product")
+     * @Route("/product/insert01", name="product_insert01")
      */
     public function index()
     {
@@ -38,7 +38,7 @@ class ProductController extends Controller
     /**
      * Find
      *
-     * @Route("/product/{id}", name="product_show")
+     * @Route("/product/detail/{id}", name="product_show")
      */
     public function showAction($id)
     {
@@ -192,11 +192,27 @@ class ProductController extends Controller
 
     /**
      * Listing
+     * Source pagination : https://github.com/KnpLabs/KnpPaginatorBundle
      *
-     * @Route("/product/listing/{page}", name="product_listing")
+     * @Route("/product", name="product_listing")
      * @todo create listing product with pagination
      */
-    public function listing($page)
+    public function listing(Request $request)
     {
+        $repository = $this->getDoctrine()->getRepository(Product::class);
+        $products = $repository->findAll();
+
+        // PAGINATION
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $products, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            $request->query->getInt('limit', 5)/*limit per page*/
+        );
+
+        return $this->render("product/listing.html.twig", array(
+            "products" => $products,
+            "pagination" => $pagination,
+        ));
     }
 }

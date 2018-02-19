@@ -88,6 +88,9 @@ php bin/console doctrine:migrations:migrate
 ### Rendu Sql (for the fun)
 php bin/console doctrine:query:sql 'SELECT * FROM product'
 
+## Pagination :
+[KNP Paginator](https://github.com/KnpLabs/KnpPaginatorBundle)
+
 ## TWIG :
 Doc : https://twig.symfony.com/doc/2.x/
 ### Theme
