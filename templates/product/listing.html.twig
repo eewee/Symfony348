@@ -4,25 +4,33 @@
 
     {{ dump() }}
 
+    <p>
+        Nunc nulla. Morbi ac felis. Donec pede justo, fringilla vel, aliquet nec, <kbd>vulputate eget, arcu</kbd>. Phasellus consectetuer vestibulum elit. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Nunc nec neque. Etiam sollicitudin, ipsum eu pulvinar rutrum, tellus ipsum laoreet sapien, quis venenatis ante odio sit amet eros. Nam at tortor in tellus interdum sagittis. Vivamus consectetuer hendrerit lacus. Sed fringilla mauris sit amet nibh. Aliquam lobortis. Curabitur blandit mollis lacus. Vestibulum volutpat pretium libero. Duis lobortis massa imperdiet quam. Cras sagittis.
+    </p>
+
     {# total items count #}
     <div class="count">
         Total : {{ pagination.getTotalItemCount }}
     </div>
-    <table class="table table-striped table-bordered table-hover">
+    <table class="table table-striped table-bordered table-hover table-sm">
+        <caption>Product listing</caption>
+        <thead class="thead-light">
         <tr>
-            <th>{{ knp_pagination_sortable(pagination, 'Id', 'id') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(pagination, 'Id', 'id') }}</th>
             <th{% if pagination.isSorted('Name') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Name', 'name') }}</th>
             <th>{{ knp_pagination_sortable(pagination, 'Price', ['price']) }}</th>
         </tr>
-
-        {# table body #}
-        {% for article in pagination %}
-            <tr {% if loop.index is odd %}class="color"{% endif %}>
-                <td>{{ article.id }}</td>
-                <td>{{ article.name }}</td>
-                <td>{{ article.price }}</td>
-            </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {# table body #}
+            {% for article in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ article.id }}</td>
+                    <td>{{ article.name }}</td>
+                    <td>{{ article.price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
     {# display navigation #}
     <div class="navigation">

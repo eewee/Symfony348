@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ dump() }}
+
+    <h1>Test traduction : </h1>
+
+    <p>
+        {% trans %}Hello{% endtrans %}
+    </p>
+    <p>
+        {% transchoice count %}
+        {0} There are no apples|{1} There is one apple|]1,Inf[ There are %count% apples
+        {% endtranschoice %}
+    </p>
+
+{% endblock %}
+

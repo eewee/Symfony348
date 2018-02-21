@@ -1,0 +1,3 @@
+"Hello": "Bonjour"
+"Your name": "Votre nom"
+"{0} There are no apples|{1} There is one apple|]1,Inf[ There are %count% apples": "{0} Il n'y a pas de pomme|{1} Il y a une pomme|]1,Inf[ Il y a %count% pommes"
