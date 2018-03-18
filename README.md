@@ -19,7 +19,7 @@ http://localhost:8000/
 ### AutoWiring
 - php bin/console debug:autowiring
 ### Annotations (pour les roots en commentaire)
-- composer require annovations
+- composer require annotations
 ### Barre de debug
 - composer require profiler --dev
 ### Add "encore" > add webpack.config.js
@@ -38,7 +38,7 @@ http://localhost:8000/
 
 ## Form :
 composer require form
-### Validator
+### Validator (@Assert)
 composer require validator
 ### Source 
 - https://symfony.com/doc/current/doctrine/registration_form.html
@@ -57,7 +57,19 @@ composer require validator
 >
 >private $price;
 
+## RECIPE :
+- https://github.com/symfony/recipes
+- https://github.com/symfony/recipes-contrib
+- Ex : composer req admin 
+(https://github.com/javiereguiluz/EasyAdminBundle)
+
+## FAKER
+### tuto : https://blog.dev-web.io/
+
 ## Make :
+### Pour créer un CRUD 
+composer require security-csrf
+php bin/console make:crud User
 ### Pour la génération de code
 composer require maker-bundle
 ### Pour créer une controller
@@ -83,10 +95,18 @@ php bin/console doctrine:database:create
 php bin/console make:entity Product
 ### Génère le sql à utiliser pour la migration (db)
 php bin/console doctrine:migrations:diff
+ou 
+php bin/console doctrine:schema:update --dump-sql
 ### Lance la migration
 php bin/console doctrine:migrations:migrate
+ou 
+php bin/console doctrine:schema:update --force
 ### Rendu Sql (for the fun)
 php bin/console doctrine:query:sql 'SELECT * FROM product'
+
+### Propriétaire / Inverse
+Propriétaire : celui qui stockera xxx_id (ex : address_id)
+https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2/les-relations-entre-entites-avec-doctrine2#/id/r-2086605
 
 ## Pagination :
 [KNP Paginator](https://github.com/KnpLabs/KnpPaginatorBundle)
@@ -107,6 +127,9 @@ http://symfony.com/doc/current/form/form_customization.html
 - Twig : {{ dump() }}
 - composer require profiler --dev
 - composer require debug
+
+## Test Unit :
+- https://symfony.com/doc/current/testing.html
 
 ## Command : 
 - php bin/console debug:router

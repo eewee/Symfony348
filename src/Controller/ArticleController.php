@@ -1,10 +1,14 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Article;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ArticleController extends AbstractController
 {
@@ -14,10 +18,6 @@ class ArticleController extends AbstractController
     {
         $this->router = $router;
     }
-
-
-
-
 
 	/**
 	 * @Route("/")
@@ -103,7 +103,210 @@ class ArticleController extends AbstractController
      *     }
      * )
      */
-    public function aaa($_locale, $year, $slug)
+    public function localeTest($_locale, $year, $slug)
     {
+    }
+
+    /**
+     * Insert db
+     * @Route("/article/insert01", name="article_insert01")
+     */
+    public function insert01()
+    {
+        /*
+        // you can fetch the EntityManager via $this->getDoctrine()
+        // or you can add an argument to your action: index(EntityManagerInterface $em)
+        $em = $this->getDoctrine()->getManager();
+
+        $article = new Article(5);
+        $article->setTitle('Lorem ipsum');
+        $article->setDescription('Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.');
+
+        $em->persist($article);
+        $em->flush();
+        */
+
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository(Article::class)->find(5);
+        if (!$article) {
+            throw $this->createNotFoundException(
+                'No product found for id 5'
+            );
+        }
+        $article->setEnable(0);
+        $em->persist($article);
+        $em->flush();
+
+        return new Response('Saved new article with id '.$article->getId());
+    }
+
+    /**
+     * .env : config for use MailTrap.io (test)
+     * composer require mailer
+     *
+     * @Route("/email/shoot01", name="article_email01")
+     */
+    public function email01(\Swift_Mailer $mailer)
+    {
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('contact@eewee.fr')
+            ->setTo('aaa@eewee.fr')
+            ->setBody(
+                $this->renderView(
+                // /templates/emails/registration.html.twig
+                    'emails/email01.html.twig',
+                    array('name' => "Eric")
+                ),
+                'text/html'
+            )
+            /*
+             * If you also want to include a plaintext version of the message
+            ->addPart(
+                $this->renderView(
+                    'emails/test.txt.twig',
+                    array('name' => $name)
+                ),
+                'text/plain'
+            )
+            */
+        ;
+        $mailer->send($message);
+
+        return $this->render('article/homepage.html.twig');
+    }
+
+    /**
+     * Query string
+     * @Route("/aaa/{firstName}/{lastName}")
+     * @param Request $request
+     * @param         $firstName
+     * @param         $lastName
+     * @return
+     */
+    public function aaa($firstName, $lastName, Request $request)
+    {
+        $page = $request->query->get('page', 1);
+        return $this->render('article/aaa.html.twig', array(
+            'page' => $page
+        ));
+    }
+
+    /**
+     * Session
+     * @Route("/bbb")
+     * @param SessionInterface $session
+     */
+    public function bbb(SessionInterface $session)
+    {
+        // store an attribute for reuse during a later user request
+        //$session->set('foo', 'barrr');
+
+        // get the attribute set by another controller in another request
+        $foobar = $session->get('foo');
+
+        // use a default value if the attribute doesn't exist
+//        $filters = $session->get('filters', array());
+
+        return $this->render('article/bbb.html.twig', array(
+            'foobar' => $foobar
+        ));
+    }
+
+    /**
+     * Flash
+     * @Route("/ccc")
+     */
+    public function ccc()
+    {
+        $this->addFlash(
+            'notice',
+            'Your changes were saved!'
+        );
+
+        return $this->render('article/ccc.html.twig');
+    }
+
+    /**
+     * Get datas (ajax, lang, get, post, server, file, cookie, header)
+     * @Route("/ddd")
+     */
+    public function ddd(Request $request)
+    {
+        $isAjax = $request->isXmlHttpRequest(); // is it an Ajax request?
+
+        $getPrefLang = $request->getPreferredLanguage(array('en', 'fr'));
+
+        // retrieve GET and POST variables respectively
+        $get = $request->query->get('page');
+        $post = $request->request->get('page');
+
+        // retrieve SERVER variables
+        $server = $request->server->get('HTTP_HOST');
+
+        // retrieves an instance of UploadedFile identified by foo
+        $file = $request->files->get('foo');
+
+        // retrieve a COOKIE value
+        $cookie = $request->cookies->get('PHPSESSID');
+
+        // retrieve an HTTP request header, with normalized, lowercase keys
+        $header01 = $request->headers->get('host');
+        $header02 = $request->headers->get('content_type');
+
+        return $this->render('article/ddd.html.twig', array(
+            'isAjax' => $isAjax,
+            'getPrefLang' => $getPrefLang,
+            'get' => $get,
+            'post' => $post,
+            'server' => $server,
+            'file' => $file,
+            'cookie' => $cookie,
+            'header01' => $header01,
+            'header02' => $header02,
+        ));
+    }
+
+    /**
+     * Json sample
+     * @Route("/eee")
+     */
+    public function eee()
+    {
+        // returns '{"username":"jane.doe"}' and sets the proper Content-Type header
+        return $this->json(array('username' => 'jane.doe'));
+
+        // the shortcut defines three optional arguments
+        // return $this->json($data, $status = 200, $headers = array(), $context = array());
+    }
+
+    /**
+     * File (ex : pdf)
+     * @Route("/fff")
+     */
+    public function fff(Request $request)
+    {
+        // send the file contents and force the browser to download it
+        return $this->file('doc/aaa.pdf');
+
+        //return $this->file('http://localhost:8001/doc/aaa.pdf');
+    }
+
+    /**
+     * File
+     * @Route("/ggg")
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function ggg()
+    {
+        // load the file from the filesystem
+        $file = new File('doc/aaa.pdf');
+
+        //return $this->file($file);
+
+        // rename the downloaded file
+        //return $this->file($file, 'custom_name.pdf');
+
+        // display the file contents in the browser instead of downloading it
+        return $this->file('doc/aaa.pdf', 'my_invoice.pdf', ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }

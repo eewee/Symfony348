@@ -207,7 +207,7 @@ class ProductController extends Controller
         $pagination = $paginator->paginate(
             $products, /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
-            $request->query->getInt('limit', 5)/*limit per page*/
+            $request->query->getInt('limit', 10)/*limit per page*/
         );
 
         return $this->render("product/listing.html.twig", array(

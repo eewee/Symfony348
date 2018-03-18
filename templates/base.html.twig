@@ -18,6 +18,10 @@
                 {# Do : bin/console debug:router for see path name. #}
                 <a href="{{ path('app_article_homepage') }}">Home</a> /
                 <a href="{{ path('blog_show', {slug:'toto-titi'}) }}">Article</a> /
+                <a href="{{ path('product_listing', {slug:'xxx'}) }}">Product</a> /
+                <a href="{{ path('user_index') }}">User</a> /
+                <a href="{{ path('app_lucky_number', {'max': 5}) }}">Lucky</a> /
+                <a href="{{ path('article_email01') }}">Email</a> /
                 Contact
             </nav>
             <hr>

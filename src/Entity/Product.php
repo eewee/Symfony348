@@ -12,7 +12,7 @@ class Product
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -24,7 +24,6 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", scale=2, nullable=true)
-     *
      * @Assert\NotBlank(message="Please, add a price here !?!!")
      */
     private $price;
