@@ -15,7 +15,7 @@ bin/console server:run
 ### Ouvrir le serveur (browser)
 http://localhost:8000/
 
-## Vrac :
+## VRAC :
 ### AutoWiring
 - php bin/console debug:autowiring
 ### Annotations (pour les roots en commentaire)
@@ -66,7 +66,7 @@ composer require validator
 ## FAKER
 ### tuto : https://blog.dev-web.io/
 
-## Make :
+## MAKE :
 ### Pour créer un CRUD 
 composer require security-csrf
 php bin/console make:crud User
@@ -108,7 +108,7 @@ php bin/console doctrine:query:sql 'SELECT * FROM product'
 Propriétaire : celui qui stockera xxx_id (ex : address_id)
 https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2/les-relations-entre-entites-avec-doctrine2#/id/r-2086605
 
-## Pagination :
+## PAGINATION :
 [KNP Paginator](https://github.com/KnpLabs/KnpPaginatorBundle)
 
 ## TWIG :
@@ -128,9 +128,9 @@ http://symfony.com/doc/current/form/form_customization.html
 - composer require profiler --dev
 - composer require debug
 
-## Test Unit :
+## TEST UNIT :
 - https://symfony.com/doc/current/testing.html
 
-## Command : 
+## COMMAND : 
 - php bin/console debug:router
 - php bin/console cache:clear
