@@ -6,7 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Article
+ *
+ * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Article
 {
@@ -21,9 +25,18 @@ class Article
      * - http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/events.html (en)
      * - https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2/les-evenements-et-extensions-doctrine (fr)
      *
-     * @ORM\PreUpdate()
+     * @ORM\PrePersist
      */
-    public function preUpdate()
+    public function prePersistEvent()
+    {
+        $this->created_at= new \DateTime();
+        $this->updated_at= new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdateEvent()
     {
         $this->updated_at= new \DateTime();
     }

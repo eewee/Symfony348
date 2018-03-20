@@ -108,9 +108,9 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * Insert db
-     * @Route("/article/insert01", name="article_insert01")
-     */
+ * Insert db
+ * @Route("/article/insert01", name="article_insert01")
+ */
     public function insert01()
     {
         /*
@@ -138,6 +138,42 @@ class ArticleController extends AbstractController
         $em->flush();
 
         return new Response('Saved new article with id '.$article->getId());
+    }
+
+    /**
+     * Insert db
+     * @Route("/article/insert02", name="article_insert02")
+     */
+    public function insert02()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $article = new Article();
+        $article->setTitle('Lorem ipsum');
+        $article->setDescription('Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.');
+        $article->setEnable(1);
+
+        $em->persist($article);
+        $em->flush();
+
+        return new Response('Saved new article with id '.$article->getId());
+    }
+
+    /**
+     * Insert db
+     * @Route("/article/update01", name="article_update01")
+     */
+    public function update01()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository(Article::class)->find(5);
+
+        $article->setTitle('Lorem ipsum (update)');
+
+        $em->persist($article);
+        $em->flush();
+
+        return new Response('Updated article with id '.$article->getId());
     }
 
     /**
