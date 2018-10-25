@@ -1,7 +1,7 @@
-# SYMFONY 4 :
+# SYMFONY 3.4.8 :
 
-## Creer un nouveau projet dans le dossier sf4
-composer create-project symfony/skeleton sf4
+## Creer un nouveau projet dans le dossier sf348
+composer create-project symfony/skeleton sf348
 
 ## Lancer un serveur :
 php -S 127.0.0.1:8000 -t public
